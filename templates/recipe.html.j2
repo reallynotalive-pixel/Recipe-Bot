@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'Spectral';
+    src: url('fonts/Spectral-Regular.ttf');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: 'Spectral';
+    src: url('fonts/Spectral-Medium.ttf');
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: 'Spectral';
+    src: url('fonts/Spectral-SemiBold.ttf');
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: 'Spectral';
+    src: url('fonts/Spectral-Italic.ttf');
+    font-style: italic;
+  }
+  @font-face {
+    font-family: 'Work Sans';
+    src: url('fonts/WorkSans-Variable.ttf');
+    font-weight: 300 700;
+  }
+
+  @page {
+    size: Letter;
+    margin: 0.85in 0.9in 0.75in 0.9in;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #F8F4EC;
+    color: #262220;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+
+  .title {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 30pt;
+    letter-spacing: 0.2pt;
+    margin: 0 0 6pt 0;
+    color: #262220;
+  }
+
+  .source {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 10.5pt;
+    color: #6B6560;
+    margin: 0 0 18pt 0;
+  }
+  .source a { color: #6B6560; text-decoration: none; border-bottom: 1pt solid #DCD3C2; }
+
+  .divider {
+    border: none;
+    border-top: 1pt solid #DCD3C2;
+    margin: 0 0 16pt 0;
+  }
+
+  .meta-row {
+    display: flex;
+    margin: 0 0 22pt 0;
+  }
+
+  .meta-item {
+    padding: 0 26pt 0 0;
+    margin-right: 26pt;
+    border-right: 1pt solid #DCD3C2;
+  }
+  .meta-item:last-child {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .meta-value {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 17pt;
+    color: #262220;
+    display: block;
+  }
+
+  .meta-label {
+    font-size: 8.5pt;
+    color: #8A8378;
+    display: block;
+    margin-top: 1pt;
+  }
+
+  .body-columns {
+    display: flex;
+  }
+
+  .col-ingredients {
+    width: 34%;
+    padding-right: 22pt;
+  }
+
+  .col-steps {
+    width: 66%;
+    padding-left: 22pt;
+    border-left: 1pt solid #DCD3C2;
+  }
+
+  h2 {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 13pt;
+    margin: 0 0 12pt 0;
+    color: #262220;
+  }
+
+  .ingredients-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ingredients-list li {
+    position: relative;
+    padding-left: 14pt;
+    margin-bottom: 9pt;
+    font-size: 10pt;
+  }
+
+  .ingredients-list li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: #A8763E;
+  }
+
+  .steps-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+  }
+
+  .steps-list li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 28pt;
+    margin-bottom: 16pt;
+    font-size: 10.5pt;
+  }
+
+  .steps-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -1pt;
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 12pt;
+    color: #A8763E;
+  }
+
+  .footer {
+    margin-top: 30pt;
+    padding-top: 10pt;
+    border-top: 1pt solid #DCD3C2;
+    font-size: 8pt;
+    color: #8A8378;
+    break-inside: avoid;
+  }
+
+  .footer .review-note {
+    color: #A8763E;
+    margin-top: 4pt;
+  }
+</style>
+</head>
+<body>
+
+  <div class="title">{{ title }}</div>
+  <div class="source">{{ platform }}: <a href="{{ source_url }}">{{ handle }}</a></div>
+  <hr class="divider">
+
+  {% if servings or prep_time or cook_time %}
+  <div class="meta-row">
+    {% if servings %}
+    <div class="meta-item">
+      <span class="meta-value">{{ servings }}</span>
+      <span class="meta-label">Servings</span>
+    </div>
+    {% endif %}
+    {% if prep_time %}
+    <div class="meta-item">
+      <span class="meta-value">{{ prep_time }}</span>
+      <span class="meta-label">Prep</span>
+    </div>
+    {% endif %}
+    {% if cook_time %}
+    <div class="meta-item">
+      <span class="meta-value">{{ cook_time }}</span>
+      <span class="meta-label">Cook</span>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="body-columns">
+    <div class="col-ingredients">
+      <h2>Ingredients</h2>
+      <ul class="ingredients-list">
+        {% for ingredient in ingredients %}
+        <li>{{ ingredient }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="col-steps">
+      <h2>Steps</h2>
+      <ol class="steps-list">
+        {% for step in steps %}
+        <li>{{ step }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    Extracted automatically from the original video caption — verify quantities before cooking.
+    {% if needs_review %}
+    <div class="review-note">Heads up: {{ review_reason }}</div>
+    {% endif %}
+  </div>
+
+</body>
+</html>
