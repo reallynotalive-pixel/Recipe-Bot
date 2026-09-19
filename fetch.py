@@ -45,6 +45,15 @@ def _detect_platform(url: str) -> str:
     raise FetchError(f"Unsupported or unrecognized platform for URL: {url}")
 
 
+def is_social_platform(url: str) -> bool:
+    """True if the URL's domain is one of the recognized social platforms."""
+    try:
+        _detect_platform(url)
+        return True
+    except FetchError:
+        return False
+
+
 def _is_numeric_id(value: str) -> bool:
     """True for bare internal user IDs like '6755984001709147141', which
     some platforms return instead of the readable @username."""
