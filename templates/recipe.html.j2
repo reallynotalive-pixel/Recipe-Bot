@@ -188,7 +188,7 @@
 <body>
 
   <div class="title">{{ title }}</div>
-  <div class="source">{{ platform }}: <a href="{{ source_url }}">{{ handle }}</a></div>
+  <div class="source">{% if handle %}{{ platform }}: <a href="{{ source_url }}">{{ handle }}</a>{% else %}<a href="{{ source_url }}">{{ platform }}</a>{% endif %}</div>
   <hr class="divider">
 
   {% if servings or prep_time or cook_time %}
@@ -235,7 +235,7 @@
   </div>
 
   <div class="footer">
-    Extracted automatically from the original video caption — verify quantities before cooking.
+    Extracted automatically from the original source — verify quantities before cooking.
     {% if needs_review %}
     <div class="review-note">Heads up: {{ review_reason }}</div>
     {% endif %}
